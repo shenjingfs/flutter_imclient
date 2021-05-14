@@ -358,7 +358,7 @@ class FlutterImclient {
     registeMessageContent(typingContentMeta);
     registeMessageContent(videoContentMeta);
 
-    _channel.setMethodCallHandler((MethodCall call) {
+    _channel.setMethodCallHandler((MethodCall call) async {
       switch (call.method) {
         case 'onConnectionStatusChanged':
           int status = call.arguments;
@@ -538,8 +538,8 @@ class FlutterImclient {
           int requestId = args['requestId'];
           List<dynamic> datas = args['messages'];
           var callback = _operationSuccessCallbackMap[requestId];
-          if (callback != null) {
-            callback(_convertProtoMessages(datas));
+          if (callback is OperationSuccessMessagesCallback) {
+            callback(await _convertProtoMessages(datas));
           }
           _removeOperationCallback(requestId);
           break;

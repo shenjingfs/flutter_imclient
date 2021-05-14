@@ -432,6 +432,7 @@ public class FlutterImclientPlugin implements FlutterPlugin, MethodCallHandler, 
         @Override
         public void onSuccess(ProtoMessage[] protoMessages) {
           Map args = new HashMap();
+          args.put("requestId", requestId);
           args.put("messages", convertProtoMessages(protoMessages));
           callback2UI("onMessagesCallback", args);
         }
